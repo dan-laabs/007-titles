@@ -56,27 +56,113 @@ bond.randomTitleGenerator = (function () {
         'To Die'
     ];
 
+    const instaKeys = [
+        '3y3lTEJBAJ',
+        '0ao3wPpBCO',
+        'zAj-wtpBDl',
+        'B1Wfyirg4B5',
+        'B1HJLcVg7UR',
+        'B01Bs4bg7Wv',
+        'B0EF80Cg7xE',
+        'BzWNJYrAtoS',
+        'ByS4GM6ALwP',
+        'ByNfFBkAbmd',
+        'ByIc2Nggy4_',
+        'BxrVnOihoK4',
+        'BxiMqw6hWiB',
+        'Bxc0sZ5Bus6',
+        'BxKzyy_luiZ',
+        'Buoejbvg8sX',
+        'BuZSi2XlB9e',
+        'BuE8DzngIIG',
+        'Bt45jQMAGKs',
+        'BtrCduqF5rK',
+        'BtL_p3NgGO_',
+        'BsDxF0GDeIA',
+        'Brp7QacApQX',
+        'Bq2wFghgXF8',
+        'BqpwyalgOMX',
+        'BqXwVO8AZfj',
+        'BqPyULZAGrc',
+        'BqNSRXAg3bH',
+        'Bp-Ac2GAaQ1',
+        'Boi5cSoAisZ',
+        'BoUjDMagood',
+        'BnWibLIArQJ',
+        'BnBke53A_iN',
+        'Bm5T6pOgGD6',
+        'Bm2_JeIgQ9T',
+        'Bmv2d4hAz-A',
+        'BmOVsQLgP2F',
+        'BmJVYNbgdiw',
+        'BltBwSIHIzY',
+        'BklLSWjAvgJ',
+        'BjPZEOjht5P',
+        'Bi9NFb-hrGk',
+        'BhKAQWdh0pE',
+        'Bg9B6eLhQb3',
+        'Bf9AfYyBP7E',
+        'Bf07vvNBdTH',
+        'BfMgqO4hCDh',
+        'BedZdoKn_BD',
+        'Bd-l7BpH6if',
+        'By04Qezg4PH',
+        'BdQGkQmHDN2',
+        'BYON_aClKcV',
+        'BDn6DSYJBOB',
+        '9OzLfLpBOr',
+        '0ao3wPpBCO',
+        'zAj-wtpBDl'
+    ];
+
     /**
      * output a random title
      */
     var exec = function () {
-        let randomNumber = Math.floor((Math.random() * 4) + 1),
-            $app = $('#app');
+        $.get('https://api.instagram.com/oembed/?url=http://instagr.am/p/' + getRandomInstaKey() + '/').done(function (data) {
+            let randomNumber = Math.floor((Math.random() * 4) + 1),
+                randomNumberTextAlign = Math.floor((Math.random() * 3) + 1),
+                $titleContainer = $('#title-inner-container'),
+                $posterContainer = $('#poster-container');
 
-        $app.empty();
+            $titleContainer.empty().removeClass();
 
-        if (randomNumber == 4) {
-            var randomNoun = getRandomNoun(),
-                randomVerb = getRandomVerb(randomNoun);
+            $posterContainer.css({
+                'background-image': 'url(' + data.thumbnail_url + ')',
+                'background-position': 'center top',
+                'background-size': '100% auto',
+                'height': data.thumbnail_height + 'px',
+                'width': data.thumbnail_width + 'px',
+            });
 
-            $app.append(titleDomHelper(randomNoun)).append(titleDomHelper(randomVerb)).append(titleDomHelper(getRandomTimeFrame()));
-        } else if (randomNumber == 3) {
-            $app.append(titleDomHelper(getRandomTimeFrame())).append(titleDomHelper(getRandomVerb())).append(titleDomHelper(getRandomAdverb())).append(titleDomHelper(getRandomTimeFrame()));
-        } else if (randomNumber == 2) {
-            $app.append(titleDomHelper(getRandomNoun())).append(titleDomHelper(getRandomSayings()));
-        } else if (randomNumber == 1) {
-            $app.append(titleDomHelper(getRandomTimeFrame())).append(titleDomHelper(getRandomSayings()));
-        }
+            $titleContainer.addClass('text-align-' + randomNumberTextAlign);
+
+            if (randomNumber == 4) {
+                var randomNoun = getRandomNoun(),
+                    randomVerb = getRandomVerb(randomNoun);
+
+                $titleContainer
+                    .append(titleDomHelper(randomNoun))
+                    .append(titleDomHelper(randomVerb))
+                    .append(titleDomHelper(getRandomTimeFrame()));
+            } else if (randomNumber == 3) {
+                $titleContainer
+                    .append(titleDomHelper(getRandomTimeFrame()))
+                    .append(titleDomHelper(getRandomVerb()))
+                    .append(titleDomHelper(getRandomAdverb()))
+                    .append(titleDomHelper(getRandomTimeFrame()));
+            } else if (randomNumber == 2) {
+                $titleContainer
+                    .append(titleDomHelper(getRandomNoun()))
+                    .append(titleDomHelper(getRandomSayings()));
+            } else if (randomNumber == 1) {
+                $titleContainer
+                    .append(titleDomHelper(getRandomTimeFrame()))
+                    .append(titleDomHelper(getRandomSayings()));
+            }
+
+            $('#credits-container').html(data.html);
+        });
     };
 
     /**
@@ -85,14 +171,16 @@ bond.randomTitleGenerator = (function () {
      * @param {string} text 
      */
     var titleDomHelper = function (text) {
-        let d = document.createElement('div'),
-            randomNumber = Math.floor((Math.random() * 100) + 1);
-
-        $(d).css({
-            'padding-left': randomNumber + 'px'
-        });
+        let d = document.createElement('div');
 
         return $(d).addClass('title').html(text);
+    };
+
+    /**
+     * get random instagram resource key
+     */
+    var getRandomInstaKey = function () {
+        return instaKeys[Math.floor(Math.random() * instaKeys.length)];
     };
 
     /**
