@@ -115,6 +115,13 @@ bond.randomTitleGenerator = (function () {
         'zAj-wtpBDl'
     ];
 
+    const fontFamily = [
+        "'Saira Semi Condensed', sans-serif",
+        "'Black Ops One', cursive",
+        "'Do Hyeon', sans-serif",
+        "'Rationale', sans-serif"
+    ];
+
     /**
      * output a random title
      */
@@ -133,6 +140,7 @@ bond.randomTitleGenerator = (function () {
                 'background-size': '100% auto',
                 'height': data.thumbnail_height + 'px',
                 'width': data.thumbnail_width + 'px',
+                'font-family': getRandomFontFamily()
             });
 
             $titleContainer.addClass('text-align-' + randomNumberTextAlign);
@@ -161,7 +169,7 @@ bond.randomTitleGenerator = (function () {
                     .append(titleDomHelper(getRandomSayings()));
             }
 
-            $('#credits-container').html(data.html);
+            // $('#credits-container').html(data.html);
         });
     };
 
@@ -174,6 +182,13 @@ bond.randomTitleGenerator = (function () {
         let d = document.createElement('div');
 
         return $(d).addClass('title').html(text);
+    };
+
+    /**
+     * get random font family
+     */
+    var getRandomFontFamily = function () {
+        return fontFamily[Math.floor(Math.random() * fontFamily.length)];
     };
 
     /**

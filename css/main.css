@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Black+Ops+One|Do+Hyeon|Rationale|Saira+Semi+Condensed&display=swap');
+
 body {
     background-color:#000000;
+    font-display: block;
 }
 
 #poster-container > #title-outer-container {
